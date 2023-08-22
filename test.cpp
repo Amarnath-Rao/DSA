@@ -13,6 +13,8 @@ public:
         int n=matrix.size();
         int m=matrix[0].size();
         vector<int> row={-1,-1,-1,0,1,1,1,0};
+
+        
         vector<int> col={-1,0,1,1,1,0,-1,-1};
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
