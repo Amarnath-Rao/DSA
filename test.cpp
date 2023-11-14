@@ -73,17 +73,12 @@ long long int add(long long int x,long long int y){
     return (x+y);
 }
 signed main(){
-   long long int n;cin>>n;
-   long long int arr[n];
-   for(long long int i=0;i<n;i++){
-    cin>>arr[i];
-   }
-   long long int c=0;
-   for(long long int i=0;i<n;i++){
-    for(long long int j=i+1;j<n;j++){
-        c+=arr[i]^arr[j];
+   string s1,s2;
+   cin>>s1>>s2;
+    int n=s1.size(),m=s2.size();
+    if (n!=m){
+        return false;
     }
-   }
-   cout<<c<<endl;
-    
+    string temp=s1+s1;
+    return (temp.find(s2)!=string::npos);
 }
