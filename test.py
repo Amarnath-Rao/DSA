@@ -1,28 +1,36 @@
-def generate_password(number, name):
-    try:
-        # Convert number to scientific notation
-        scientific_notation = "{:.1e}".format(float(number))
+def max_crossing_subarray(arr, low, mid, high):
+    left_sum = float('-inf')
+    sum_temp = 0
 
-        # Simplify the digits after the decimal point
-        simplified_exponent = sum(int(digit) for digit in str(scientific_notation.split('e')[1]))
+    for i in range(mid, low - 1, -1):
+        sum_temp += arr[i]
+        left_sum = max(left_sum, sum_temp)
 
-        # Create S1 by concatenating the first three letters of each digit
-        s1 = ''.join([word[:3] for word in str(scientific_notation) if word.isalpha() or word == 'e'])
+    right_sum = float('-inf')
+    sum_temp = 0
 
-        # Create S2 by concatenating letters at odd positions in the name
-        s2 = ''.join([name[i-1] for i in range(1, len(name)+1, 2)])
+    for i in range(mid + 1, high + 1):
+        sum_temp += arr[i]
+        right_sum = max(right_sum, sum_temp)
 
-        # Combine S1 and S2 with '@' symbol
-        password = f"{s1}@{s2}"
+    return left_sum + right_sum
 
-        return password
-    except ValueError:
-        # Invalid number
-        return "Invalid input"
 
-# Input
-T = int(input("Enter the number of test cases: "))
-for _ in range(T):
-    number, name = input().split()
-    result = generate_password(number, name)
-    print(result)
+def max_subarray(arr, low, high):
+    if low == high:
+        return arr[low]
+
+    mid = (low + high) // 2
+
+    left_sum = max_subarray(arr, low, mid)
+    right_sum = max_subarray(arr, mid + 1, high)
+    cross_sum = max_crossing_subarray(arr, low, mid, high)
+
+    return max(left_sum, right_sum, cross_sum)
+
+
+# Example usage:
+arr = [-2, -3, 4, -1, -2, 1, 5, -3]
+n = len(arr)
+result = max_subarray(arr, 0, n - 1)
+print("Maximum Subarray Sum:", result)
