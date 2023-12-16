@@ -1,0 +1,5 @@
+s=input()
+t=input()
+sx=sorted(s)
+tx=sorted(t)
+print(sx==tx)
