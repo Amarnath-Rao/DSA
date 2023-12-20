@@ -5,18 +5,15 @@ class Solution:
     
 
 """
-class Solution {
-  public:
-    int gameOfXor(int N , int A[]) {
-        int ans = 0;
+class Solution{
+public:
+    int findWinner(int n, int A[]){
+        int val = 0;
         
-        for(int i = 0; i < N; i++){
-            if(((i + 1) & 1) and ((N - i) & 1)){
-                ans ^= A[i];
-            }
-        }
+        for(int i = 0; i < n; i++)
+            val ^= A[i];
         
-        return ans;
+        return ((n & 1) and val > 0) ? 2 : 1;
     }
 };
 
