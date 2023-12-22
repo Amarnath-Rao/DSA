@@ -5,15 +5,22 @@ class Solution:
     
 
 """
-class Solution{
-public:
-    int findWinner(int n, int A[]){
-        int val = 0;
+class Solution {
+  public:
+    int minCandy(int N, vector<int> &ratings) {
+        vector<int> ans(N, 1);
         
-        for(int i = 0; i < n; i++)
-            val ^= A[i];
+        for(int i = 1; i < N; i++){
+            if(ratings[i] > ratings[i - 1])
+                ans[i] = max(ans[i], ans[i - 1] + 1);
+        }
         
-        return ((n & 1) and val > 0) ? 2 : 1;
+        for(int i = N - 2; i > -1; i--){
+            if(ratings[i] > ratings[i + 1])
+                ans[i] = max(ans[i], ans[i + 1] + 1);
+        }
+        
+        return accumulate(ans.begin(), ans.end(), 0LL);
     }
 };
 
