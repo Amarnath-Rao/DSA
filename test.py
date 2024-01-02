@@ -1,12 +1,20 @@
-s=[1,1]
-g=[1,2,3]
-s=set(s)
-g=set(g)
-s=list(s)
-g=list(g)
-c=0
-for j in range(len(s)):
-    for i in range(len(g)):
-        if s[j]>=g[i]:
-            c+=1
-print(c)
+class Solution:
+    def findMatrix(self, v: List[int]) -> List[List[int]]:
+        um = {}
+        for i in v:
+            um[i] = um.get(i, 0) + 1
+        
+        ans = []
+        while um:
+            temp = []
+            to_erase = []
+            for f, s in um.items():
+                temp.append(f)
+                s -= 1
+                if s == 0:
+                    to_erase.append(f)
+                um[f] = s
+            ans.append(temp)
+            for i in to_erase:
+                del um[i]
+        return ans
