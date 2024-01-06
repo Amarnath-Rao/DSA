@@ -1,24 +1,13 @@
 class Solution:
-    def singleElement(self, arr, N):
-        # code here 
-        mp = dict()
- 
-    # Traverse through array elements 
-    # and count frequencies
-        for i in range(n):
-            if arr[i] in mp.keys():
-                mp[arr[i]] += 1
-            else:
-                mp[arr[i]] = 1
-             
-    # Traverse through map and print 
-    # frequencies
-        for x in mp:
-            if mp[x]==1:
-                return x
-                break
- 
-# Driver code
-arr = [1,10,1,1 ]
-n = len(arr)
-countFreq(arr, n)
+    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+        jobs = sorted(zip(endTime, startTime, profit))
+      
+        number_of_jobs = len(profit)
+      
+        dp = [0] * (number_of_jobs + 1)
+      
+        for i, (current_end_time, current_start_time, current_profit) in enumerate(jobs):
+            index = bisect_right(jobs, current_start_time, hi=i, key=lambda x: x[0])
+            dp[i + 1] = max(dp[i], dp[index] + current_profit)
+      
+        return dp[number_of_jobs]
