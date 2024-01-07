@@ -1,13 +1,15 @@
 class Solution:
-    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        jobs = sorted(zip(endTime, startTime, profit))
-      
-        number_of_jobs = len(profit)
-      
-        dp = [0] * (number_of_jobs + 1)
-      
-        for i, (current_end_time, current_start_time, current_profit) in enumerate(jobs):
-            index = bisect_right(jobs, current_start_time, hi=i, key=lambda x: x[0])
-            dp[i + 1] = max(dp[i], dp[index] + current_profit)
-      
-        return dp[number_of_jobs]
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        n = len(nums)
+        total_count = 0  
+        dp = [defaultdict(int) for _ in range(n)]
+
+        for i in range(1, n):
+            for j in range(i):
+                diff = nums[i] - nums[j]
+                dp[i][diff] += 1  
+                if diff in dp[j]:
+                    dp[i][diff] += dp[j][diff]
+                    total_count += dp[j][diff]
+
+        return total_count
