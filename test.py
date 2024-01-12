@@ -13,61 +13,31 @@ class Solution:
         return ans
     
 """
-class Solution {
-  public:
-    string removeKdigits(string S, int K) {
-        pair<int, int> last = {0, K};
-        int n = S.size();
-        int index = 0;
+class Solution
+{
+    public:
+    
+    // Function to reverse first k elements of a queue.
+    queue<int> modifyQueue(queue<int> q, int k) {
         
-        while(index < n){
-            if(S[index] != '0'){
-                if(K)
-                    --K;
-                else
-                    break;
-                    
-                ++index;
-            }
-            else{
-                while(index < n and S[index] == '0'){
-                    ++index;
-                }
-                
-                last = {index, K};
-            }
+        int remaining = q.size() - k; //2
+        stack<int> st;
+        while(k--) {
+            st.push(q.front());
+            q.pop();
         }
         
-        stack<int> num;
-        int start = last.first;
-        K = last.second;
-        
-        for(int i = start; i < n; i++){
-            while(num.size() and num.top() > (S[i] - '0') and K){
-                --K;
-                num.pop();
-            }
-            
-            num.push(S[i] - '0');
+        while(!st.empty()) {
+            q.push(st.top());
+            st.pop();
         }
         
-        while(num.size() and K--){
-            num.pop();
+        while(remaining--) {
+            q.push(q.front());
+            q.pop();
         }
         
-        string ans = "";
-        
-        while(num.size()){
-            ans += to_string(num.top());
-            num.pop();
-        }
-        
-        reverse(ans.begin(), ans.end());
-        
-        if(ans == "")
-            ans = "0";
-        
-        return ans;
+        return q;
     }
 };
 """
