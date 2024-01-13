@@ -16,28 +16,30 @@ class Solution:
 class Solution
 {
     public:
-    
-    // Function to reverse first k elements of a queue.
-    queue<int> modifyQueue(queue<int> q, int k) {
-        
-        int remaining = q.size() - k; //2
-        stack<int> st;
-        while(k--) {
-            st.push(q.front());
-            q.pop();
+    void backsorter(struct Node* & head){
+        if(head==NULL)return;
+        backsorter(head->next);
+        Node * curr=head;
+        Node * Next=head->next;
+        int key=curr->data;
+        while(Next!=NULL){
+            if(Next->data <key){
+                curr->data=Next->data;
+                curr=Next;
+                Next=Next->next;
+            }
+            else{
+                break;
+            }
         }
-        
-        while(!st.empty()) {
-            q.push(st.top());
-            st.pop();
-        }
-        
-        while(remaining--) {
-            q.push(q.front());
-            q.pop();
-        }
-        
-        return q;
+        curr->data=key;
     }
+    Node* insertionSort(struct Node* head)
+    {
+        if(head==NULL || head->next==NULL)return head;
+        backsorter(head);
+        return head;
+    }
+    
 };
 """
