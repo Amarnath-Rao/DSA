@@ -1,23 +1,37 @@
-def max_ones_after_flip(n, coins):
-    max_ones = 0
+#code to check straight line
+def checkstraightline(a):
+    if (a[0][0] == a[1][0] == a[2][0]):
+        print("Yes")
+    elif (a[0][1] == a[1][1] == a[2][1]):
+        print("Yes")
+    else:
+        print("No")
+    
+a=checkstraightline([[1,2],[2,3],[3,4]])
+b=checkstraightline([[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]])
+#true case
+c=checkstraightline([[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]])
 
-    for i in range(n):
-        for j in range(i, n):
-            # Simulate flipping operation
-            flipped_coins = coins[:i] + [1 - x for x in coins[i:j+1]] + coins[j+1:]
-            
-            # Count the number of ones
-            ones_count = sum(flipped_coins)
-            
-            # Update the maximum count
-            max_ones = max(max_ones, ones_count)
+"""
+class Solution:
+    def solve(self, ind, n, st, nums):
+        # base case
+        if ind == n:
+            st.add(tuple(nums))
+            return
 
-    return max_ones
+        for i in range(ind, n):
+            nums[ind], nums[i] = nums[i], nums[ind]
+            self.solve(ind + 1, n, st, nums)
+            nums[ind], nums[i] = nums[i], nums[ind]
 
-# Sample Input
-n = int(input().strip())
-coins = list(map(int, input().split()))
+    def uniquePerms(self, arr, n):
+        st = set()
+        ans = []
+        # {ind, n, freq, st}
+        self.solve(0, n, st, arr)
+        for it in st:
+            ans.append(list(it))
+        return ans
 
-# Get and print the result
-result = max_ones_after_flip(n, coins)
-print(result)
+"""
