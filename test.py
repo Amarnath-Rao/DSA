@@ -1,21 +1,21 @@
-private:
-        vector<int> temp;
-        vector<vector<int>> res;
-    void helper(Node * root, int sum){
-        if(!root) return ;
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        dp = [0]
+        res = 0
         
-        temp.push_back(root->key);
+        for s in arr:
+            a, dup = 0, 0
+            for c in s:
+                dup |= a & (1 << (ord(c) - ord('a')))
+                a |= 1 << (ord(c) - ord('a'))
+            
+            if dup > 0:
+                continue
+            
+            for i in range(len(dp) - 1, -1, -1):
+                if (dp[i] & a) > 0:
+                    continue
+                dp.append(dp[i] | a)
+                res = max(res, bin(dp[i] | a).count('1'))
         
-        if(sum - root->key == 0) res.push_back(temp);
-        helper(root->left,sum-root->key);
-        helper(root->right,sum-root->key);
-        
-        temp.pop_back();
-        
-    }
-    public:
-    vector<vector<int>> printPaths(Node *root, int sum){
-        helper(root,sum);
-        return res;
-    }
-
+        return res
