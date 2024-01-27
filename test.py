@@ -1,39 +1,12 @@
-class Solution
-{
-    public:
+class Solution:
+    def kInversePairs(self, n: int, k: int) -> int:
+        dp = [[0] * 1001 for _ in range(1001)]
+        dp[0][0] = 1
 
-    double fractionalKnapsack(int W, Item arr[], int n)
-    {
-    
-        vector<pair<int,int>> vec;
-        for(int i = 0 ; i <  n ;i++)
-        {
-            Item ele = arr[i];
-            vec.push_back({ele.value , ele.weight});
-        }
-        
-        sort(vec.begin() ,vec.end() , [&](pair<int,int> &a, pair<int,int> &b)
-            {
-                return ( a.first*1.0 / a.second  ) > ( b.first*1.0 / b.second); 
-            });
-        double ans= 0 ;
-        int i = 0;
-        for( ;i<n;i++)
-        {
-            if(vec[i].second<=W)
-            {
-                ans +=vec[i].first;
-                W = W-vec[i].second;
-            }
-            else
-            break;
-        }
-        if(i<n && W>0)
-        {
-            ans += (vec[i].first*1.0 / vec[i].second )*W;
-        }
-        return ans;
-    }
-        
-};
+        for i in range(1, n + 1):
+            for j in range(0, k + 1):
+                for x in range(0, min(j, i - 1) + 1):
+                    if j - x >= 0:
+                        dp[i][j] = (dp[i][j] + dp[i - 1][j - x]) % 1000000007
 
+        return dp[n][k]
