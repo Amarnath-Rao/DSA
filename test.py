@@ -1,12 +1,45 @@
+from typing import List
+
+
 class Solution:
-    def kInversePairs(self, n: int, k: int) -> int:
-        dp = [[0] * 1001 for _ in range(1001)]
-        dp[0][0] = 1
+    def findNthNumber(self, n : int, k : int ) -> int:
+        low, high = 0, 10 ** 18
+        self.dp = [[[-1] * 65 for _ in range(65)] for _ in range(2)]
 
-        for i in range(1, n + 1):
-            for j in range(0, k + 1):
-                for x in range(0, min(j, i - 1) + 1):
-                    if j - x >= 0:
-                        dp[i][j] = (dp[i][j] + dp[i - 1][j - x]) % 1000000007
+        while low <= high:
+            mid = low + (high - low) // 2
+            count = self.find(mid, k)
+            if count >= n:
+                high = mid - 1
+            else:
+                low = mid + 1
+        return low
 
-        return dp[n][k]
+    def find(self, n, k):
+        s = format(n, 'b').zfill(64)
+        self.reset()
+        return self.dpf(s, len(s), 1, k)
+
+    def dpf(self, s, n, tight, k):
+        if k < 0:
+            return 0
+        if n == 0:
+            return 1
+        if self.dp[tight][k][n] is not None:
+            return self.dp[tight][k][n]
+
+        ub = int(s[len(s) - n]) if tight == 1 else 1
+        ans = 0
+        for dig in range(ub + 1):
+            if dig == ub:
+                ans += self.dpf(s, n - 1, tight, k - dig)
+            else:
+                ans += self.dpf(s, n - 1, 0, k - dig)
+        self.dp[tight][k][n] = ans
+        return ans
+
+    def reset(self):
+        for i in range(65):
+            for j in range(65):
+                self.dp[0][i][j] = None
+                self.dp[1][i][j] = None
