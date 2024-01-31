@@ -21,3 +21,78 @@ class Solution:
                 stack.append(int(token))
         return stack.pop()
 
+"""
+
+class Solution
+
+{
+
+   
+
+    public:
+
+        //Function to insert string into TRIE.
+
+        void insert(struct TrieNode *root, string key)
+
+        {
+
+            // code here
+
+            if(key.size()==0){
+
+                root->isLeaf=true;
+
+                return;
+
+            }
+
+            if(root->children[key[0]-'a']!=NULL){
+
+                insert(root->children[key[0]-'a'],key.substr(1));
+
+            }
+
+            else{
+
+                root->children[key[0]-'a']=new TrieNode();
+
+                insert(root->children[key[0]-'a'],key.substr(1));
+
+            }
+
+        }
+
+        
+
+        //Function to use TRIE data structure and search the given string.
+
+        bool search(struct TrieNode *root, string key) 
+
+        {
+
+            // code here
+
+            if(key.size()==0 && root->isLeaf==true){
+
+                return true;
+
+            }
+
+            if(root->children[key[0]-'a']!=NULL){
+
+                return search(root->children[key[0]-'a'],key.substr(1));
+
+            }
+
+            else{
+
+                return false;
+
+            }
+
+        }
+
+};
+
+"""
