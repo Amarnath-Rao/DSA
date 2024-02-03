@@ -14,3 +14,28 @@ class Solution:
 
         a.sort()
         return a
+
+
+"""
+
+class Solution
+{
+    public:
+        // Should return decimal equivalent modulo 1000000007 of binary linked list 
+        long long unsigned int decimalValue(Node *head)
+        {
+           // Your Code Here
+          Node* temp=head;
+          long long unsigned int sum=0;
+          while(temp){
+              sum=(sum*2+temp->data)%MOD; // the modulo 1000000007 ensures that the sum variable
+              //remains within a reasonable range and doesn't overflow
+              temp=temp->next;
+          }
+          return sum;
+        }
+};
+
+
+
+"""
