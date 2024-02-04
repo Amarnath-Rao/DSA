@@ -1,41 +1,40 @@
 class Solution:
-    def sequentialDigits(self, low, high):
-        a = []
+    def minWindow(self, s: str, t: str) -> str:
+        if not s or not t:
+            return ""
 
-        for i in range(1, 10):
-            num = i
-            next_digit = i + 1
+        dictT = defaultdict(int)
+        for c in t:
+            dictT[c] += 1
 
-            while num <= high and next_digit <= 9:
-                num = num * 10 + next_digit
-                if low <= num <= high:
-                    a.append(num)
-                next_digit += 1
+        required = len(dictT)
+        l, r = 0, 0
+        formed = 0
 
-        a.sort()
-        return a
+        windowCounts = defaultdict(int)
+        ans = [-1, 0, 0]
 
+        while r < len(s):
+            c = s[r]
+            windowCounts[c] += 1
 
-"""
+            if c in dictT and windowCounts[c] == dictT[c]:
+                formed += 1
 
-class Solution
-{
-    public:
-        // Should return decimal equivalent modulo 1000000007 of binary linked list 
-        long long unsigned int decimalValue(Node *head)
-        {
-           // Your Code Here
-          Node* temp=head;
-          long long unsigned int sum=0;
-          while(temp){
-              sum=(sum*2+temp->data)%MOD; // the modulo 1000000007 ensures that the sum variable
-              //remains within a reasonable range and doesn't overflow
-              temp=temp->next;
-          }
-          return sum;
-        }
-};
+            while l <= r and formed == required:
+                c = s[l]
 
+                if ans[0] == -1 or r - l + 1 < ans[0]:
+                    ans[0] = r - l + 1
+                    ans[1] = l
+                    ans[2] = r
 
+                windowCounts[c] -= 1
+                if c in dictT and windowCounts[c] < dictT[c]:
+                    formed -= 1
 
-"""
+                l += 1
+
+            r += 1
+
+        return "" if ans[0] == -1 else s[ans[1]:ans[2] + 1]
