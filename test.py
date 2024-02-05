@@ -38,3 +38,48 @@ class Solution:
             r += 1
 
         return "" if ans[0] == -1 else s[ans[1]:ans[2] + 1]
+
+
+"""
+
+class Solution
+{
+    public:
+    Node *sortedInsert(Node* head, int data)
+    {
+       //Your code here
+       if(head==NULL)
+       { 
+           Node* t = new Node(data);
+           t->next = t;
+            return t;
+       }
+       else
+       {
+           if(head->data >= data)
+           {
+              Node* t=new Node(data);
+              Node* r= head;
+              t->next = head;
+              while(head->next!=r)
+              {
+                  head=head->next;
+              }
+              head->next = t;
+              return t;
+           }
+           Node* r = head;
+           while(head->next!=r && head->next->data <= data)
+           {
+                head=head->next;   
+           }
+           
+           Node * t = new Node(data);
+           t->next = head->next;
+           head->next = t;
+           return r;
+       }
+    }
+};
+
+"""
