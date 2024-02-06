@@ -1,85 +1,50 @@
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        if not s or not t:
-            return ""
-
-        dictT = defaultdict(int)
-        for c in t:
-            dictT[c] += 1
-
-        required = len(dictT)
-        l, r = 0, 0
-        formed = 0
-
-        windowCounts = defaultdict(int)
-        ans = [-1, 0, 0]
-
-        while r < len(s):
-            c = s[r]
-            windowCounts[c] += 1
-
-            if c in dictT and windowCounts[c] == dictT[c]:
-                formed += 1
-
-            while l <= r and formed == required:
-                c = s[l]
-
-                if ans[0] == -1 or r - l + 1 < ans[0]:
-                    ans[0] = r - l + 1
-                    ans[1] = l
-                    ans[2] = r
-
-                windowCounts[c] -= 1
-                if c in dictT and windowCounts[c] < dictT[c]:
-                    formed -= 1
-
-                l += 1
-
-            r += 1
-
-        return "" if ans[0] == -1 else s[ans[1]:ans[2] + 1]
-
-
 """
 
-class Solution
-{
-    public:
-    Node *sortedInsert(Node* head, int data)
+ int printKDistantfromLeaf(Node* root, int k)
     {
-       //Your code here
-       if(head==NULL)
-       { 
-           Node* t = new Node(data);
-           t->next = t;
-            return t;
-       }
-       else
-       {
-           if(head->data >= data)
-           {
-              Node* t=new Node(data);
-              Node* r= head;
-              t->next = head;
-              while(head->next!=r)
-              {
-                  head=head->next;
-              }
-              head->next = t;
-              return t;
-           }
-           Node* r = head;
-           while(head->next!=r && head->next->data <= data)
-           {
-                head=head->next;   
-           }
-           
-           Node * t = new Node(data);
-           t->next = head->next;
-           head->next = t;
-           return r;
-       }
+        unordered_map<Node *,Node *> m;
+        unordered_set<Node *> leaf;
+        unordered_set<Node *> ans;
+        
+        queue<Node *> q;
+        q.push(root);
+        m[root]=NULL;
+        
+        while(!q.empty())
+        {
+            Node * t=q.front();
+            q.pop();
+            
+            if(t->left==0 && t->right==0)
+                leaf.insert(t);
+                
+            if(t->left)
+            {
+                q.push(t->left);
+                m[t->left]=t;
+            }
+            if(t->right)
+            {
+                q.push(t->right);
+                m[t->right]=t;
+            }
+        }
+        
+        for(auto &val:leaf)
+        {
+            int cnt=0;
+            Node * t=val;
+            while(cnt!=k && t!=0)
+            {
+                cnt++;
+                t=m[t];
+            }
+            if(t!=0 && cnt==k)
+                ans.insert(t);
+        }
+        return ans.size();
     }
-};
+
+
 
 """
