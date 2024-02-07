@@ -1,49 +1,72 @@
 """
 
- int printKDistantfromLeaf(Node* root, int k)
-    {
-        unordered_map<Node *,Node *> m;
-        unordered_set<Node *> leaf;
-        unordered_set<Node *> ans;
-        
-        queue<Node *> q;
-        q.push(root);
-        m[root]=NULL;
-        
-        while(!q.empty())
-        {
-            Node * t=q.front();
-            q.pop();
+class Solution{
+    private:
+        Node* findLCA(Node* currNode, int a, int b) {
             
-            if(t->left==0 && t->right==0)
-                leaf.insert(t);
-                
-            if(t->left)
-            {
-                q.push(t->left);
-                m[t->left]=t;
+            if (currNode == NULL) {
+                return NULL;
             }
-            if(t->right)
-            {
-                q.push(t->right);
-                m[t->right]=t;
+            
+            if ((currNode -> data == a) || (currNode -> data == b)) {
+                return currNode;
             }
+            
+            Node* leftAns = findLCA(currNode -> left, a, b);
+            Node* rightAns = findLCA(currNode -> right, a, b);
+            
+            if(leftAns == NULL && rightAns == NULL) {
+                return NULL;
+            }
+            
+            if (leftAns == NULL && rightAns != NULL) {
+                return rightAns;
+            }
+            
+            if (leftAns != NULL && rightAns == NULL) {
+                return leftAns;
+            }
+            
+            return currNode;
+            
         }
         
-        for(auto &val:leaf)
-        {
-            int cnt=0;
-            Node * t=val;
-            while(cnt!=k && t!=0)
-            {
-                cnt++;
-                t=m[t];
+        int findDist(Node* currNode, int nodeVal){
+            
+            if (currNode == NULL) {
+                return -1;
             }
-            if(t!=0 && cnt==k)
-                ans.insert(t);
+            
+            if (currNode -> data == nodeVal) {
+                return 0;
+            }
+            
+            int leftAns = findDist(currNode -> left, nodeVal);
+            if (leftAns >= 0) {
+                return leftAns + 1;
+            }
+            
+            int rightAns = findDist(currNode -> right, nodeVal);
+            if (rightAns >= 0) {
+                return rightAns + 1;
+            }
+            
+            return -1;
+            
         }
-        return ans.size();
+    public:
+    /* Should return minimum distance between a and b
+    in a tree with given root*/
+    int findDist(Node* root, int a, int b) {
+        
+        Node* LCA = findLCA(root, a, b);
+        int distFromAtoLCA = findDist(LCA, a);
+        int distFromBtoLCA = findDist(LCA, b);
+        
+        return (distFromAtoLCA + distFromBtoLCA);
+        
     }
+};
 
 
 
