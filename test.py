@@ -1,73 +1,59 @@
 """
-
-class Solution{
-    private:
-        Node* findLCA(Node* currNode, int a, int b) {
-            
-            if (currNode == NULL) {
-                return NULL;
-            }
-            
-            if ((currNode -> data == a) || (currNode -> data == b)) {
-                return currNode;
-            }
-            
-            Node* leftAns = findLCA(currNode -> left, a, b);
-            Node* rightAns = findLCA(currNode -> right, a, b);
-            
-            if(leftAns == NULL && rightAns == NULL) {
-                return NULL;
-            }
-            
-            if (leftAns == NULL && rightAns != NULL) {
-                return rightAns;
-            }
-            
-            if (leftAns != NULL && rightAns == NULL) {
-                return leftAns;
-            }
-            
-            return currNode;
-            
+ void levelordertraversal(Node* root,vector<vector<int>>&ans){
+        if(root==NULL){
+            return ;
         }
-        
-        int findDist(Node* currNode, int nodeVal){
-            
-            if (currNode == NULL) {
-                return -1;
+        queue<Node*>q;
+        q.push(root);
+        while(!q.empty()){
+            int size=q.size();
+            vector<int>ds;
+            for(int i=0;i<size;i++){
+                Node* temp=q.front();
+                q.pop();
+                ds.push_back(temp->data);
+                if(temp->left){
+                    q.push(temp->left);
+                }
+                if(temp->right){
+                    q.push(temp->right);
+                }
             }
-            
-            if (currNode -> data == nodeVal) {
-                return 0;
-            }
-            
-            int leftAns = findDist(currNode -> left, nodeVal);
-            if (leftAns >= 0) {
-                return leftAns + 1;
-            }
-            
-            int rightAns = findDist(currNode -> right, nodeVal);
-            if (rightAns >= 0) {
-                return rightAns + 1;
-            }
-            
-            return -1;
-            
+            ans.push_back(ds);
         }
-    public:
-    /* Should return minimum distance between a and b
-    in a tree with given root*/
-    int findDist(Node* root, int a, int b) {
-        
-        Node* LCA = findLCA(root, a, b);
-        int distFromAtoLCA = findDist(LCA, a);
-        int distFromBtoLCA = findDist(LCA, b);
-        
-        return (distFromAtoLCA + distFromBtoLCA);
         
     }
-};
-
+    void solve(Node* root,vector<int>&store){
+        if(root==NULL){
+            return;
+        }
+        if(root->left==NULL && root->right==NULL){
+            store.push_back(root->data);
+        }
+        if(root->left){
+            solve(root->left,store);
+            
+        }
+        if(root->right){
+            solve(root->right,store);
+            
+        }
+    }
+    bool check(Node *root)
+    {
+       
+        vector<vector<int>>ans;
+        vector<int>store;
+        levelordertraversal(root,ans);
+        solve(root,store);
+        int n=ans.size();
+        int last=ans[n-1].size();
+        if(store.size()!=last){
+            return false;
+        }
+        return true;
+        
+    }
 
 
 """
