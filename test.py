@@ -1,20 +1,20 @@
 """
 
-class Solution{
-    public:
-    //Function to check whether all nodes of a tree have the value 
-    //equal to the sum of their child nodes.
-   
-    int isSumProperty(Node *root)
-    {
-     // Add your code here
-     if(!root || (!root->left && !root->right))return 1;
-          int k=0;
-         if(root->left)k=root->left->data;
-         if(root->right)k+=root->right->data;
-         return (k==root->data) and isSumProperty(root->left) and isSumProperty(root->right);
+class Solution {
+public:
+
+    long long dp[101][101][101];
     
-     
+    long long solve(int x, int y,int n, int k, vector<vector<int>>& arr){
+        if(x >= n or y >= n or k<0) return 0ll;
+        if(x == n-1 and y == n-1 and k - arr[x][y] == 0) return 1ll;
+        if(dp[k][x][y]!=-1) return dp[k][x][y];
+        return  dp[k][x][y] = solve(x+1,y,n,k-arr[x][y],arr) + solve(x,y+1,n,k-arr[x][y],arr); 
+    }
+    
+    long long numberOfPath(int n, int k, vector<vector<int>> arr){
+        memset(dp,-1,sizeof(dp));
+        return solve(0ll,0ll,n,k,arr);
     }
 };
 
