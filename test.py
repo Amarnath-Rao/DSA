@@ -1,21 +1,34 @@
 """
 
-class Solution {
+class Solution{
 public:
-
-    long long dp[101][101][101];
-    
-    long long solve(int x, int y,int n, int k, vector<vector<int>>& arr){
-        if(x >= n or y >= n or k<0) return 0ll;
-        if(x == n-1 and y == n-1 and k - arr[x][y] == 0) return 1ll;
-        if(dp[k][x][y]!=-1) return dp[k][x][y];
-        return  dp[k][x][y] = solve(x+1,y,n,k-arr[x][y],arr) + solve(x,y+1,n,k-arr[x][y],arr); 
+    void solve(int n,vector<int> &ans,unordered_map<int,int> &m,vector<int> &dp){
+        if(dp[n]!=-1){
+            ans.push_back(dp[n-1]);
+            return;
+        }
+        solve(n-1,ans,m,dp);
+        //dp[n] = m.find(dp[n-1]-n)!=m.end()?dp[n-1]-n:dp[n-1]+n;
+        if(dp[n-1]-n>0 && m.find(dp[n-1]-n)==m.end()){
+            dp[n] = dp[n-1]-n;
+        }
+        else{
+            dp[n] = dp[n-1]+n;
+        }
+        m[dp[n]]++;
+        ans.push_back(dp[n]);
     }
-    
-    long long numberOfPath(int n, int k, vector<vector<int>> arr){
-        memset(dp,-1,sizeof(dp));
-        return solve(0ll,0ll,n,k,arr);
+    vector<int> recamanSequence(int n){
+        // code here
+        vector<int>ans;
+        unordered_map<int,int>m;
+        vector<int>dp(n,-1);
+        dp[0]=0;
+        m[0]++;
+        solve(n-1,ans,m,dp);
+        return ans;
     }
 };
+ 
 
 """
