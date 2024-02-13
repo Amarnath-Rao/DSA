@@ -1,22 +1,3 @@
-"""
-
-class Solution{
-public:
-    long long sequence(int n){
-        // code here
-        long long mod = 1e9 + 7;
-        long long out = 0, c = 1;
-        for(int i = 1; i <= n; ++i){
-            long long temp = 1;
-            for(int j = 0; j < i ; ++j){
-                temp *= c++;
-                temp %= mod;
-            }
-            out = (out + temp) % mod;
-        }
-        return out;
-    }
-};
- 
-
-"""
+class Solution:
+    def firstPalindrome(self, words: List[str]) -> str:
+        return next((s for s in words if all(s[i]==s[-(i+1)] for i in range(len(s)//2))), "")
