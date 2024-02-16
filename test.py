@@ -1,20 +1,16 @@
 class Solution:
-    def firstPalindrome(self, words: List[str]) -> str:
-        return next((s for s in words if all(s[i]==s[-(i+1)] for i in range(len(s)//2))), "")
-    
-
-"""
-
-class Solution {
-public:
-int isPossible(vector<vector<int>> paths){
-        for(auto i: paths){
-            if(accumulate(i.begin(), i.end(), 0) % 2 != 0)
-                return false;
-        }
-        return true;
-}
- 
-};
-
-"""
+    def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+        mp = collections.Counter(arr)
+        v = list(mp.values())
+        cnt = 0
+        v.sort()
+        for i in range(len(v)):
+            if k > v[i]:
+                k -= v[i]
+                v[i] = 0
+            else:
+                v[i] -= k
+                k = 0
+            if v[i] != 0:
+                cnt += 1
+        return cnt
