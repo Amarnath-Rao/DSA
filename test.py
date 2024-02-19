@@ -18,20 +18,27 @@ class Solution:
 
 
 """
-
-class Solution
-{
-    public:
-        
-        int sumOfLeafNodes(Node *root ){
-             if(!root)
-                return 0;
-            
-            if(!root->left && !root->right)
-                return root->data;
-            
-            return sumOfLeafNodes(root->left) + sumOfLeafNodes(root->right);
+int minValue(string s, int k){
+        // code here
+        priority_queue<int> pq;
+        vector<int> alpha(26,0);
+        for(int i = 0; i<(int)s.size(); i++){
+            alpha[s[i]-'a']++;
         }
-};
+        for(auto i: alpha) pq.push(i);
+        while(k){
+            int high = pq.top();
+            high--;
+            k--;
+            pq.pop();
+            pq.push(high);
+        }
+        int ans = 0;
+        while(pq.size()){
+            ans += pq.top()*pq.top();
+            pq.pop();
+        }
+        return ans;
+    }
 
 """
