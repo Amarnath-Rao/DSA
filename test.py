@@ -1,33 +1,31 @@
+from collections import defaultdict
+from queue import Queue
+
 class Solution:
-    def rangeBitwiseAnd(self, left: int, right: int) -> int:
-        cnt = 0
-        while left != right:
-            left >>= 1
-            right >>= 1
-            cnt += 1
-        return left << cnt
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        adj = defaultdict(list)
+        for flight in flights:
+            adj[flight[0]].append((flight[1], flight[2]))
 
-"""
+        dist = [float('inf')] * n
+        dist[src] = 0
 
-class Solution
-{
-    public:
-    int subsequenceCount(string s, string t)
-    {
-    int n=s.length(),m=t.length();
-      int mod=1e9+7;
-      vector<vector<int>>dp(n+1,vector<int>(m+1,0));
-      for(int i=0;i<n;i++)dp[i][0]=1;
-      for(int i=1;i<=n;i++){
-          for(int j=1;j<=m;j++){
-              if(s[i-1]==t[j-1])dp[i][j]=dp[i-1][j-1];
-              dp[i][j]=(dp[i][j]+dp[i-1][j])%mod;
-          }
-      }
-      return dp[n][m];
-    }
-};
+        q = Queue()
+        q.put((src, 0))
+        stops = 0
 
+        while not q.empty() and stops <= k:
+            sz = q.qsize()
+            for _ in range(sz):
+                node, distance = q.get()
 
+                if node not in adj: continue
 
-"""
+                for neighbour, price in adj[node]:
+                    if price + distance >= dist[neighbour]: continue
+                    dist[neighbour] = price + distance
+                    q.put((neighbour, dist[neighbour]))
+
+            stops += 1
+
+        return dist[dst] if dist[dst] != float('inf') else -1
