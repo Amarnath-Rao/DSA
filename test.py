@@ -1,25 +1,23 @@
+#User function Template for python3
 
-class Solution(object):
-    def isSameTree(self, p, q):
-        if not p and not q:
-            return True
-        if not p or not q:
-            return False
-        return p.val == q.val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+class Solution:
+    def DivisibleByEight(self,s):
+        if len(s)<=2 :
+            s = int(s)
+        else:
+            s = int(s[-3:])
+        return 1 if s%8==0 else -1
+        #code here
 
 
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
 
-"""
-
-int* game_with_number(int arr[], int n)
-{
-    
-    // Complete the function
-    for(int i=0;i<n-1;i++){
-        arr[i]= (arr[i] | arr[i+1]);
-    }
-    return arr;
-    
-}
-
-"""
+if __name__=='__main__':
+    t=int(input())
+    for _ in range(t):
+        S=input()
+        ob=Solution()
+        print(ob.DivisibleByEight(S))
+# } Driver Code Ends
