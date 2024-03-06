@@ -1,13 +1,11 @@
-class Solution:   
-    def peakElement(self,a, n):
-        # Code here
-        if n==1: return 0
-        l=0
-        h=n-1
-        while(l<h):
-            m=l+((h-l)>>1)
-            if a[m]>=a[m+1]:
-                h=m
-            else:
-                l=m+1
-        return l
+def search(text, pattern):
+    n, m = len(text), len(pattern)
+    res = []
+    for i in range(n - m + 1):
+        if text[i:i+m] == pattern:
+            res.append(i + 1)  # 1-based index
+    return res
+
+text = "geeksforgeeks"
+pattern = "geek"
+print(search(text, pattern))
