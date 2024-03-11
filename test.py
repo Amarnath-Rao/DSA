@@ -1,6 +1,9 @@
-from collections import OrderedDict
+from collections import Counter
 
-str = "geEksforGEeks"
-od = OrderedDict.fromkeys(str)
-x = ''.join(od.keys())
-print(x)
+A = 'scaler'
+B = 'relasc'
+
+if Counter(A) == Counter(B):
+    print(1)
+else: 
+    print(0)
