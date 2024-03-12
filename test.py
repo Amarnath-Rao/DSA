@@ -1,9 +1,38 @@
-from collections import Counter
+import numpy as np
 
-A = 'scaler'
-B = 'relasc'
 
-if Counter(A) == Counter(B):
-    print(1)
-else: 
-    print(0)
+class Solution:
+    def genFibNum(self, a, b, c, n, m):
+        if n <= 2:
+            return 1
+        res = np.array([
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ])
+        gen_fib_matrix = np.array([
+            [a, b, c],
+            [1, 0, 0],
+            [0, 0, 1]
+        ])
+        n -= 2
+        while n:
+            if n & 1:
+                res = np.matmul(res, gen_fib_matrix) % m
+            gen_fib_matrix = np.matmul(gen_fib_matrix, gen_fib_matrix) % m
+            n >>= 1
+        return sum(res[0]) % m
+
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+if __name__ == '__main__': 
+    t = int (input ())
+    for _ in range (t):
+        a,b,c,n,m=map(int,input().split())
+        
+        ob = Solution()
+        print(ob.genFibNum(a,b,c,n,m))
+# } Driver Code Ends
