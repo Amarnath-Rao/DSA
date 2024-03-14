@@ -1,46 +1,45 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-// } Driver Code Ends
 class Solution {
   public:
-    string longestSubstring(string s, int n) {
+  int largestSubsquare(int n, vector<vector<char>> mat) {
+        int vertical_col[n][n]; 
+        int horizontal_row[n][n]; 
         
-       vector<vector<int>>dp(n+1,vector<int>(n+1,0));
-        int max_length=0;
-        int last=0;
-        for(int i=1;i<=n;i++){
-            for(int j=i+1;j<=n;j++){
-                if(s[i-1]==s[j-1] && dp[i-1][j-1]<(j-i)){
-                    dp[i][j]=dp[i-1][j-1]+1;
-                    if(max_length<dp[i][j]){
-                        max_length=dp[i][j];
-                        last=i-1;
-                    }
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                vertical_col[i][j] = 0; 
+                horizontal_row[i][j] = 0; 
+                if(mat[i][j] == 'X') {
+                    vertical_col[i][j] = i == 0 ? 1 : vertical_col[i-1][j] + 1; 
+                }
+                if(mat[i][j] == 'X') {
+                    horizontal_row[i][j] = j == 0 ? 1 : horizontal_row[i][j-1] + 1; 
                 }
             }
         }
-        if(max_length==0)
-        return "-1";
-        return s.substr(last-max_length+1,max_length);
+        
+        int maxSquareSide = 0; 
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(vertical_col[i][j] == 0 || horizontal_row[i][j] == 0) {
+                    continue; 
+                }
+                
+                int curr_side = min(vertical_col[i][j], horizontal_row[i][j]); 
+                 
+                while(curr_side > 0) {
+                    int v_pnt = i - curr_side + 1; 
+                    int h_pnt = j - curr_side + 1;
+                    
+                    if(horizontal_row[v_pnt][j] >= curr_side && 
+                    vertical_col[i][h_pnt] >= curr_side) {
+                        maxSquareSide = max(maxSquareSide, curr_side);
+                        break; 
+                    }
+                    curr_side--; 
+                }
+                
+            }
+        }
+        return maxSquareSide; 
     }
 };
-
-//{ Driver Code Starts.
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int N;
-        string S;
-
-        cin >> N;
-        cin >> S;
-
-        Solution ob;
-        cout << ob.longestSubstring(S, N) << endl;
-    }
-    return 0;
-}
-// } Driver Code Ends
