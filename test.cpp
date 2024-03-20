@@ -40,25 +40,30 @@ struct Node
 
 class Solution
 {
-    public:
-    //Function to return the level order traversal of a tree.
-    vector<int>levelOrder(Node* root){
-        vector<int>res;
-        queue<Node*>q;
-        q.push(root);
-        while(!q.empty()){
-            int s=q.size();
-            for(int i=0;i<s;i++){
-                Node* n=q.front();
-                q.pop();
-                res.push_back(n->data);
-                if(n->left) q.push(n->left);
-                if(n->right) q.push(n->right);
+public:
+    int maxLength=0;
+    int maxSum=0;
+    void dfs(Node *node,int depth,int currentSum){
+        if(node==nullptr) return;
+        currentSum+=node->data;
+        if(node->left==nullptr && node->right==nullptr){
+            if(depth>maxLength){
+                maxLength=depth;
+                maxSum=currentSum;
+            }else if(depth==maxLength && currentSum>maxSum){
+                maxSum=currentSum;
             }
         }
+        dfs(node->left,depth+1,currentSum);
+        dfs(node->right,depth+1,currentSum);
+    }
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        if(root==nullptr) return 0;
+        dfs(root,1,0);
+        return maxSum;
     }
 };
-
 //{ Driver Code Starts.
 
 /* Helper function to test mirror(). Given a binary
@@ -150,8 +155,8 @@ int main()
 		getline(cin,s);
 		Node* root = buildTree(s);
 		Solution ob;
-        vector <int> res = ob.levelOrder(root);
-        for (int i : res) cout << i << " ";
+        //vector <int> res = ob.levelOrder(root);
+        //for (int i : res) cout << i << " ";
         cout << endl;
   }
   return 0;
