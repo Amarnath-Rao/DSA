@@ -1,25 +1,17 @@
 /*
 
-class Solution {
-  public:
-  void solve(Node* root,map<int,int>&mp,int level)
-  {
-      if(root==NULL)return;
-      mp[level]+=root->data;
-      solve(root->left,mp,level+1);
-      solve(root->right,mp,level);
-  }
-    vector<int> diagonalSum(Node* root) {
-        map<int,int>mp;
-        solve(root,mp,0);
-        vector<int>ans;
-        for(auto it:mp)
+vector<int> Series(int n) {
+        // Code here
+        vector<int>dp(n+1, 0);
+        dp[0] = 0;
+        dp[1] = 1;
+        const int mod = (1e9+7);
+        for(int i = 2; i<=n; i++)
         {
-            ans.push_back(it.second);
+            dp[i] = (dp[i-1]+dp[i-2])%mod;
         }
-        return ans;
+        return dp;
     }
-};
 
 */
 
