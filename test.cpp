@@ -1,18 +1,24 @@
 /*
 
-vector<int> Series(int n) {
-        // Code here
-        vector<int>dp(n+1, 0);
-        dp[0] = 0;
-        dp[1] = 1;
-        const int mod = (1e9+7);
-        for(int i = 2; i<=n; i++)
-        {
-            dp[i] = (dp[i-1]+dp[i-2])%mod;
+class Solution{
+public:
+    stack<int> insertAtBottom(stack<int> st,int x){
+        vector <int > ans;
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
         }
-        return dp;
+        reverse(ans.begin(), ans.end());
+        st.push(x);
+        int i=0;
+        while(ans.size()!=0){
+            st.push(ans[i]);
+            ans.pop_back();
+            i++;
+        }
+        return st;
     }
-
+};
 */
 
 
