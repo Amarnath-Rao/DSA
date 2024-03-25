@@ -2,22 +2,33 @@
 
 class Solution{
 public:
-    stack<int> insertAtBottom(stack<int> st,int x){
-        vector <int > ans;
-        while(!st.empty()){
-            ans.push_back(st.top());
-            st.pop();
+    void getans(string temp,int n,vector<string> &ans,char add){
+        temp.push_back(add);
+        if(temp.length()==n){
+            ans.push_back(temp);
+            return;
         }
-        reverse(ans.begin(), ans.end());
-        st.push(x);
-        int i=0;
-        while(ans.size()!=0){
-            st.push(ans[i]);
-            ans.pop_back();
-            i++;
+        int c1=0,c2=0;
+        for(auto i:temp){
+            if(i=='1') c1++;
+            else c2++;
         }
-        return st;
+        if(c1>c2){
+            getans(temp,n,ans,'0');
+            getans(temp,n,ans,'1');
+        }else{
+            getans(temp,n,ans,'1');
+        }
     }
+	vector<string> NBitBinary(int n)
+	{
+	    // Your code goes here
+	    vector<string>ans;
+	    string temp="";
+	    getans(temp,n,ans,'1');
+	    reverse(ans.begin(),ans.end());
+	    return ans;
+	}
 };
 */
 
