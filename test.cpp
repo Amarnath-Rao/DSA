@@ -1,34 +1,32 @@
 /*
-
-class Solution{
+class Solution {
 public:
-    void getans(string temp,int n,vector<string> &ans,char add){
-        temp.push_back(add);
-        if(temp.length()==n){
-            ans.push_back(temp);
-            return;
-        }
-        int c1=0,c2=0;
-        for(auto i:temp){
-            if(i=='1') c1++;
-            else c2++;
-        }
-        if(c1>c2){
-            getans(temp,n,ans,'0');
-            getans(temp,n,ans,'1');
-        }else{
-            getans(temp,n,ans,'1');
-        }
+    bool isAdditiveSequence(string n) {
+        int len = n.size();
+        for (int i = 1; i <= len / 2; ++i)
+            for (int j = 1; j <= (len - i) / 2; ++j)
+                if (check(n.substr(0, i), n.substr(i, j), n.substr(i + j))) return true;
+        return false;
     }
-	vector<string> NBitBinary(int n)
-	{
-	    // Your code goes here
-	    vector<string>ans;
-	    string temp="";
-	    getans(temp,n,ans,'1');
-	    reverse(ans.begin(),ans.end());
-	    return ans;
-	}
+    bool check(string num1, string num2, string remaining) {
+        if ((num1.size() > 1 && num1[0] == '0') || (num2.size() > 1 && num2[0] == '0')) return false;
+        string sum = add(num1, num2);
+        if (sum == remaining) return true;
+        if (sum.size() >= remaining.size() || sum != remaining.substr(0, sum.size())) return false;
+        else return check(num2, sum, remaining.substr(sum.size()));
+    } 
+    string add(string n, string m) {
+        string res;
+        int i = n.size() - 1, j = m.size() - 1, carry = 0;
+        while (i >= 0 || j >= 0) {
+            int sum = carry + (i >= 0 ? (n[i--] - '0') : 0) + (j >= 0 ? (m[j--] - '0') : 0);
+            res.push_back(sum % 10 + '0');
+            carry = sum / 10;
+        }
+        if (carry) res.push_back(carry + '0');
+        reverse(res.begin(), res.end());
+        return res;
+    }
 };
 */
 
