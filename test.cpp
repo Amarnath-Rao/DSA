@@ -1,31 +1,112 @@
 /*
-class Solution {
+class Solution
+{
 public:
-    bool isAdditiveSequence(string n) {
-        int len = n.size();
-        for (int i = 1; i <= len / 2; ++i)
-            for (int j = 1; j <= (len - i) / 2; ++j)
-                if (check(n.substr(0, i), n.substr(i, j), n.substr(i + j))) return true;
+
+    bool isvalid(int x, int y, int n, int m){
+        
+        if( x >=0 && x < n && y>=0 && y<m){
+            return true;
+        }
         return false;
     }
-    bool check(string num1, string num2, string remaining) {
-        if ((num1.size() > 1 && num1[0] == '0') || (num2.size() > 1 && num2[0] == '0')) return false;
-        string sum = add(num1, num2);
-        if (sum == remaining) return true;
-        if (sum.size() >= remaining.size() || sum != remaining.substr(0, sum.size())) return false;
-        else return check(num2, sum, remaining.substr(sum.size()));
-    } 
-    string add(string n, string m) {
-        string res;
-        int i = n.size() - 1, j = m.size() - 1, carry = 0;
-        while (i >= 0 || j >= 0) {
-            int sum = carry + (i >= 0 ? (n[i--] - '0') : 0) + (j >= 0 ? (m[j--] - '0') : 0);
-            res.push_back(sum % 10 + '0');
-            carry = sum / 10;
+    
+
+    vector<int> drow = {-1,0,1,0};
+    vector<int> dcol = {0,1,0,-1};
+    
+    int findShortestPath(vector<vector<int>> &mat)
+    {
+        int n = mat.size();
+        int m = mat[0].size();
+        
+        for(int i=0;i<n;i++){
+            
+            for(int j=0;j<m;j++){
+                
+                if(mat[i][j] == 0){
+                    
+                    mat[i][j] = -1e9;
+                    
+                    for(int k=0;k<4;k++){
+                        int nrow = i + drow[k];
+                        int ncol = j + dcol[k];
+                        
+                        if(isvalid(nrow,ncol,n,m)){
+                            mat[nrow][ncol] = -1e9;
+                        }
+                    }    
+                }
+                else if(mat[i][j] != -1e9){
+                    mat[i][j] = 1e9;
+                }
+            }
         }
-        if (carry) res.push_back(carry + '0');
-        reverse(res.begin(), res.end());
-        return res;
+        
+        queue<pair<int,pair<int,int>>>q;
+        
+        
+        for(int i=0;i<n;i++){
+            if(mat[i][0] == 1e9){
+                mat[i][0] = 0;
+                q.push({0,{i,0}});   
+            }
+        }
+        
+        //debug
+        
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<m;j++){
+        //         cout<<mat[i][j]<<" ";
+        //     }
+        //     cout<<endl;
+        // }
+
+        
+        while(!q.empty()){
+            
+            auto top = q.front();
+            q.pop();
+            
+            int dis = top.first;
+            int r = top.second.first;
+            int c = top.second.second;
+
+            if(c == m-1){
+                break;
+            }
+            
+            for(int i=0;i<4;i++){
+                int nr = r + drow[i];
+                int nc = c + dcol[i];
+                
+                if(isvalid(nr,nc,n,m)){
+                    
+                    if(mat[nr][nc] != -1e9){
+
+                        if(dis + 1 < mat[nr][nc]){
+                            mat[nr][nc] = dis+1;
+                            q.push({mat[nr][nc], {nr,nc}});
+                        }   
+                    }
+                }
+            }
+        }
+        
+        int ans = 1e9;
+        
+        for(int i=0;i<n;i++){
+            if(mat[i][m-1] != -1e9){
+                ans = min(ans, mat[i][m-1]); 
+            }   
+        }
+        
+        return ans == 1e9? -1: ans+1;
+        
+        
+        
+        
+       // code here
     }
 };
 */
