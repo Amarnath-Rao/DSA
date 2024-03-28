@@ -1,114 +1,56 @@
 /*
-class Solution
-{
-public:
-
-    bool isvalid(int x, int y, int n, int m){
-        
-        if( x >=0 && x < n && y>=0 && y<m){
-            return true;
+int findCity(int n, int m, vector<vector<int>>& edges, int distanceThreshold) {
+        unordered_map<int,list<pair<int,int>>>adj;
+        for(int i=0;i<m;i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            int w=edges[i][2];
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
         }
-        return false;
-    }
-    
-
-    vector<int> drow = {-1,0,1,0};
-    vector<int> dcol = {0,1,0,-1};
-    
-    int findShortestPath(vector<vector<int>> &mat)
-    {
-        int n = mat.size();
-        int m = mat[0].size();
-        
+        int ans=1e9;
+        int node=-1;
         for(int i=0;i<n;i++){
-            
-            for(int j=0;j<m;j++){
-                
-                if(mat[i][j] == 0){
-                    
-                    mat[i][j] = -1e9;
-                    
-                    for(int k=0;k<4;k++){
-                        int nrow = i + drow[k];
-                        int ncol = j + dcol[k];
-                        
-                        if(isvalid(nrow,ncol,n,m)){
-                            mat[nrow][ncol] = -1e9;
+            vector<int>dis(n,INT_MAX);
+            set<pair<int,int>>s;
+            dis[i]=0;
+            s.insert({0,i});
+            while(!s.empty()){
+                auto top=*(s.begin());
+                int distance=top.first;
+                int node=top.second;
+                s.erase(s.begin());
+                for(auto j:adj[node]){
+                    if(distance+j.second<dis[j.first]){
+                        auto record=s.find(make_pair(dis[j.first], j.first));;
+                        if(record!=s.end()){
+                            s.erase(record);
                         }
-                    }    
-                }
-                else if(mat[i][j] != -1e9){
-                    mat[i][j] = 1e9;
-                }
-            }
-        }
-        
-        queue<pair<int,pair<int,int>>>q;
-        
-        
-        for(int i=0;i<n;i++){
-            if(mat[i][0] == 1e9){
-                mat[i][0] = 0;
-                q.push({0,{i,0}});   
-            }
-        }
-        
-        //debug
-        
-        // for(int i=0;i<n;i++){
-        //     for(int j=0;j<m;j++){
-        //         cout<<mat[i][j]<<" ";
-        //     }
-        //     cout<<endl;
-        // }
-
-        
-        while(!q.empty()){
-            
-            auto top = q.front();
-            q.pop();
-            
-            int dis = top.first;
-            int r = top.second.first;
-            int c = top.second.second;
-
-            if(c == m-1){
-                break;
-            }
-            
-            for(int i=0;i<4;i++){
-                int nr = r + drow[i];
-                int nc = c + dcol[i];
-                
-                if(isvalid(nr,nc,n,m)){
-                    
-                    if(mat[nr][nc] != -1e9){
-
-                        if(dis + 1 < mat[nr][nc]){
-                            mat[nr][nc] = dis+1;
-                            q.push({mat[nr][nc], {nr,nc}});
-                        }   
+                        dis[j.first]=distance+j.second;
+                        s.insert({dis[j.first],j.first});
                     }
                 }
             }
+            int cnt=0;
+            for(int k=0;k<n;k++){
+                if(i==k){
+                    continue;
+                }
+                if(dis[k]<=distanceThreshold){
+                    cnt++;
+                }
+            }
+            if(cnt<ans){
+                ans=cnt;
+                node=i;
+            }
+            else if(cnt==ans){
+                node=max(node,i);
+            }
+            
         }
-        
-        int ans = 1e9;
-        
-        for(int i=0;i<n;i++){
-            if(mat[i][m-1] != -1e9){
-                ans = min(ans, mat[i][m-1]); 
-            }   
-        }
-        
-        return ans == 1e9? -1: ans+1;
-        
-        
-        
-        
-       // code here
+        return node;
     }
-};
 */
 
 
