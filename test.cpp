@@ -1,56 +1,13 @@
 /*
-int findCity(int n, int m, vector<vector<int>>& edges, int distanceThreshold) {
-        unordered_map<int,list<pair<int,int>>>adj;
-        for(int i=0;i<m;i++){
-            int u=edges[i][0];
-            int v=edges[i][1];
-            int w=edges[i][2];
-            adj[u].push_back({v,w});
-            adj[v].push_back({u,w});
-        }
-        int ans=1e9;
-        int node=-1;
-        for(int i=0;i<n;i++){
-            vector<int>dis(n,INT_MAX);
-            set<pair<int,int>>s;
-            dis[i]=0;
-            s.insert({0,i});
-            while(!s.empty()){
-                auto top=*(s.begin());
-                int distance=top.first;
-                int node=top.second;
-                s.erase(s.begin());
-                for(auto j:adj[node]){
-                    if(distance+j.second<dis[j.first]){
-                        auto record=s.find(make_pair(dis[j.first], j.first));;
-                        if(record!=s.end()){
-                            s.erase(record);
-                        }
-                        dis[j.first]=distance+j.second;
-                        s.insert({dis[j.first],j.first});
-                    }
-                }
-            }
-            int cnt=0;
-            for(int k=0;k<n;k++){
-                if(i==k){
-                    continue;
-                }
-                if(dis[k]<=distanceThreshold){
-                    cnt++;
-                }
-            }
-            if(cnt<ans){
-                ans=cnt;
-                node=i;
-            }
-            else if(cnt==ans){
-                node=max(node,i);
-            }
-            
-        }
-        return node;
+class Solution {
+  public:
+    int minValue(Node* root) {
+        // Code here
+        if(root==NULL) return INT_MAX;
+        if(root->left==NULL) return root->data;
+        return minValue(root->left);
     }
+};
 */
 
 
