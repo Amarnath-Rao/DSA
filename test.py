@@ -1,5 +1,9 @@
 import numpy as np
-
+"""
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.strip().split(' ')[-1])
+"""
 
 class Solution:
     def genFibNum(self, a, b, c, n, m):
