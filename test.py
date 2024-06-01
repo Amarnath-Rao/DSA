@@ -1,10 +1,8 @@
-command = "(al)G(al)()()G"
-st=""
-for i in range(0,len(command)):
-    if command[i]=="G":
-        st+="G"
-    elif command[i]=="(" and command[i+1]==")":
-        st+="o"
-    elif command[i]=="(" and command[i+1]=="a":
-        st+="al"
-print(st)
+from collections import Counter
+a=[1,2,1,3,2,5]
+x=[]
+c=Counter(a)
+for i,k in c.items():
+    if k==1:
+        x.append(i)
+print(x)
