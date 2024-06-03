@@ -1,8 +1,15 @@
-from collections import Counter
-a=[1,2,1,3,2,5]
-x=[]
-c=Counter(a)
-for i,k in c.items():
-    if k==1:
-        x.append(i)
+s = "coaching"
+t = "coding"
+x=""
+y=""
+for i in s:
+    for j in t:
+        if i!=j:
+            x+=i
+            break
+        elif j!=i:
+            y+=j
+            break
 print(x)
+print(" ")
+print(y)
