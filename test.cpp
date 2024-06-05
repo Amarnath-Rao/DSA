@@ -4,9 +4,11 @@ using namespace std;
 #include <iostream>
 
 void fun(){
-    string s = "coaching", t = "coding";
-    for(int i=0;i<s.size();i++){
-        
+    vector<string>& words {"bella","label","roller"};
+    for(int i=0; i<words.size();i++){
+        for(int j=0;j<i.size();j++){
+            
+        }
     }
 }
 
