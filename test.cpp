@@ -4,12 +4,16 @@ using namespace std;
 #include <iostream>
 
 void fun(){
-    vector<string>& words {"bella","label","roller"};
-    for(int i=0; i<words.size();i++){
-        for(int j=0;j<i.size();j++){
-            
-        }
-    }
+    
+    int arr[] = { 12, 4,  7,  9,  2,  23, 25, 41, 30,
+                  40, 28, 42, 30, 44, 48, 43, 50 };
+    int n=sizeof(arr)/sizeof(arr[0]);
+    int m = 7; // Number of students
+    sort(arr, arr + n);
+    int mi=arr[0];
+    int ma=arr[2];
+    cout<<ma-mi;
+    
 }
 
 int main(){
