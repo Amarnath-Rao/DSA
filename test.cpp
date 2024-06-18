@@ -2,18 +2,22 @@
 using namespace std;
 #define lli long long int
 
+/*
 class Solution {
 public:
-int minPatches(vector<int>& nums, int n) {
-    int cnt=0,i=0;
-    long long maxNum=0;
-    while (maxNum<n){
-       if (i<nums.size() && nums[i]<=maxNum+1)
-            maxNum+=nums[i++];
-       else{
-            maxNum+=maxNum+1;cnt++;
-       }
-   }
-   return cnt;
-}
+        int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+            vector<pair<int, int>> jobs;
+            int N = profit.size(), res = 0, i = 0, best = 0;
+            for (int j = 0; j < N; ++j)
+                jobs.push_back(make_pair(difficulty[j], profit[j]));
+            sort(jobs.begin(), jobs.end());
+            sort(worker.begin(), worker.end());
+            for (int & ability : worker) {
+                while (i < N && ability >= jobs[i].first)
+                    best = max(jobs[i++].second, best);
+                res += best;
+            }
+            return res;
+        }
 };
+*/
