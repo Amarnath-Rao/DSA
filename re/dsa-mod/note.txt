@@ -1,0 +1,3 @@
+dsa->algos->complex prog->company problems
+dsa->sll+dll,stack,que+deque,array,bst,string
+algos->graph,sorting,recursion,divide&conquer,greedy,dp
